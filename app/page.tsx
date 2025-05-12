@@ -51,7 +51,7 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 md:py-40 lg:py-48">
           <div className="text-center">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-              KBO 팬들을 위한 최고의 커뮤니티✨!
+              KBO 팬들을 위한 최고의 커뮤니티✨
             </h1>
             <p className="mt-2 sm:mt-3 max-w-md mx-auto text-sm sm:text-base md:text-lg text-white md:mt-5 md:max-w-3xl">
               팀별 채팅, 직관 메이트 찾기 등 다양한 기능을 즐겨보세요!
