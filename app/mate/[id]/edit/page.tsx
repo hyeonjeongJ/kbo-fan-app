@@ -7,12 +7,10 @@ interface PageProps {
   };
 }
 
-export default async function EditPostPage({ params }: PageProps) {
-  const id = await Promise.resolve(params.id);
-
+export default function EditPostPage({ params }: PageProps) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <EditPostForm id={id} />
+      <EditPostForm id={params.id} />
     </Suspense>
   );
 } 
