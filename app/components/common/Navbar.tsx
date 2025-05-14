@@ -119,6 +119,16 @@ export default function Navbar() {
               <Link href="/mate" className="text-white hover:text-blue-400 transition-colors">직관 메이트 찾기</Link>
             </div>
             <div className="flex items-center space-x-4">
+              {process.env.NEXT_PUBLIC_ENV === "development" && (
+                <Link href="/admin">
+                  <button
+                    className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+                    style={{ fontWeight: 'bold' }}
+                  >
+                    관리자 페이지 접속
+                  </button>
+                </Link>
+              )}
               {user ? (
                 <div className="flex flex-col sm:flex-row items-end sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                   <span className="text-white text-sm sm:text-base truncate max-w-[150px]">
