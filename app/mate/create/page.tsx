@@ -120,7 +120,7 @@ export default function CreatePostPage() {
       router.push('/mate');
     } catch (error) {
       console.error('Error creating post:', error);
-      alert('게시글 작성 중 오류가 발생했습니다.');
+      alert('게시글 작성 중 오류가 발생했습니다. 다시 시도해주세요.');
     } finally {
       setLoading(false);
     }
