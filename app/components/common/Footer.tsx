@@ -8,28 +8,22 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">회사 정보</h3>
             <p className="text-gray-400">KBO 팬 커뮤니티</p>
-            <p className="text-gray-400">contact@kbofan.com</p>
+            <p className="text-gray-400">lucy2166@naver.com</p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-4">소셜 미디어</h3>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white">Facebook</a>
-              <a href="#" className="text-gray-400 hover:text-white">Instagram</a>
-              <a href="#" className="text-gray-400 hover:text-white">YouTube</a>
-            </div>
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-4">사이트 맵</h3>
             <div className="flex flex-col space-y-2">
               <Link href="/" className="text-gray-400 hover:text-white">홈</Link>
-              <Link href="/chat" className="text-gray-400 hover:text-white">채팅방</Link>
-              <Link href="/games" className="text-gray-400 hover:text-white">경기 정보</Link>
+              <Link href="/youtube" className="text-gray-400 hover:text-white">영상 요약하기</Link>
+              <Link href="/weather" className="text-gray-400 hover:text-white">구장별 날씨 정보</Link>
               <Link href="/fan-activities" className="text-gray-400 hover:text-white">팬 활동</Link>
             </div>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>© 2024 KBO Fan Community. All rights reserved.</p>
+          <p>© 2025 KBO Fan Community. All rights reserved.</p>
         </div>
       </div>
     </footer>
