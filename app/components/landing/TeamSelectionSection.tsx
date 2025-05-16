@@ -118,7 +118,9 @@ export default function TeamSelectionSection() {
               팀 다시 선택하기
             </button>
           </div>
-          <h2 className="text-3xl font-bold text-center mb-12 text-blue-700">팀 선택 완료! 당신의 팀은</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-blue-700">팀 선택 완료!</h2>
+          <h3 className="text-3xl font-bold text-center mb-12 text-blue-700"> 당신의 팀은...</h3>
+          
           <div className="flex flex-col items-center justify-center">
             <AnimatePresence>
               {selectedTeam && (
