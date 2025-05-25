@@ -60,26 +60,43 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin' }: A
   const handleGoogleSignIn = async () => {
     try {
       console.log('Starting Google sign in...');
-      console.log('Current URL:', window.location.href);
-      console.log('Supabase client:', supabase);
       
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: 'https://yrrrzxnhbkvnmeqrwlaq.supabase.co/auth/v1/callback'
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent'
+          }
         }
       });
       
-      console.log('Google sign in response:', data);
       if (error) {
         console.error('Google sign in error:', error);
         throw error;
       }
-      // 구글 로그인 성공 후 강제 새로고침
-      window.location.reload();
+
+      // 구글 로그인 성공 후 user 테이블에 insert
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        const { error: insertError } = await supabase
+          .from('user')
+          .upsert({
+            id: userData.user.id,
+            email: userData.user.email,
+            last_sign_in_at: new Date().toISOString()
+          }, {
+            onConflict: 'id'
+          });
+
+        if (insertError) {
+          console.error('Error inserting user data:', insertError);
+        }
+      }
     } catch (error: any) {
       console.error('Error in signInWithGoogle:', error);
-      throw error;
+      setError(error.message);
     }
   };
 

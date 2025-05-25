@@ -83,12 +83,45 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchRole();
   }, [user]);
 
+  // 로그인 후 닉네임이 없는 경우 /profile로 이동
+  useEffect(() => {
+    const checkNickname = async () => {
+      if (user) {
+        const { data } = await supabase
+          .from('user')
+          .select('nickname')
+          .eq('id', user.id)
+          .single();
+        if (!data?.nickname) {
+          router.replace('/profile');
+        }
+      }
+    };
+    if (user) checkNickname();
+  }, [user, router]);
+
   // 로그인 후 role이 admin/moderator면 /admin으로 이동
   useEffect(() => {
     if (user && (role === 'admin' || role === 'moderator')) {
       router.replace('/admin');
     }
   }, [user, role, router]);
+
+  // 로그인 후 public.user에 id/email upsert (닉네임 입력과 별개)
+  useEffect(() => {
+    const upsertUser = async () => {
+      if (user) {
+        await supabase
+          .from('user')
+          .upsert({
+            id: user.id,
+            email: user.email,
+            nickname: null,
+          }, { onConflict: 'id' });
+      }
+    };
+    if (user) upsertUser();
+  }, [user]);
 
   const signIn = async (email: string, password: string) => {
     try {
@@ -118,7 +151,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email,
         password,
         options: {
-          emailRedirectTo: window.location.origin
+          emailRedirectTo: 'https://kbo-fan-app.vercel.app/auth/callback'
         }
       });
       if (!error) {

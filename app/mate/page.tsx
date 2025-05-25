@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
+import { useAuth } from "@/contexts/AuthContext";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -73,8 +74,9 @@ function formatDate(dateString: string) {
 }
 
 export default function MatePage() {
+  const { user, loading } = useAuth();
   const [posts, setPosts] = useState<MatePost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [postsLoading, setPostsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
@@ -89,7 +91,7 @@ export default function MatePage() {
 
   const fetchPosts = async () => {
     try {
-      setLoading(true);
+      setPostsLoading(true);
       
       let query = supabase
         .from('mate_post')
@@ -117,7 +119,7 @@ export default function MatePage() {
     } catch (error) {
       console.error('Failed to fetch posts:', error);
     } finally {
-      setLoading(false);
+      setPostsLoading(false);
     }
   };
 
@@ -147,6 +149,21 @@ export default function MatePage() {
     (a) => a.start_date <= today && a.end_date >= today
   ).sort((a, b) => a.priority - b.priority);
   const topAnnouncement = activeAnnouncements[0];
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">로딩 중...</div>;
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-8 rounded-xl shadow-md text-center">
+          <h2 className="text-2xl font-bold mb-4">로그인이 필요합니다</h2>
+          <p className="text-gray-600">직관 메이트 찾기 기능은 로그인 후 이용하실 수 있습니다.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 pt-24">
@@ -209,7 +226,7 @@ export default function MatePage() {
             ))}
           </div>
 
-          {loading && currentPage === 1 ? (
+          {postsLoading && currentPage === 1 ? (
             <div className="flex justify-center py-12">
               <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-900"></div>
             </div>
@@ -268,10 +285,10 @@ export default function MatePage() {
                 <div className="flex justify-center mt-8">
                   <button
                     onClick={loadMore}
-                    disabled={loading}
+                    disabled={postsLoading}
                     className="px-6 py-3 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 disabled:opacity-50 transition-colors text-gray-700 font-medium flex items-center gap-2"
                   >
-                    {loading ? (
+                    {postsLoading ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-700"></div>
                         로딩 중...
