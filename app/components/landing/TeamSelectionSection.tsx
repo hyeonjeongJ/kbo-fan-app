@@ -67,7 +67,7 @@ export default function TeamSelectionSection() {
     try {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       if (userError || !user) {
-        setMessage('로그인이 필요합니다.');
+        setMessage('팀 선택을 위해서는 로그인이 필요합니다.');
         setSelecting(false);
         return;
       }
@@ -118,7 +118,7 @@ export default function TeamSelectionSection() {
               팀 다시 선택하기
             </button>
           </div>
-          <h2 className="text-3xl font-bold text-center mb-12 text-blue-700">팀 선택 완료!</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-blue-700">팀 선택 완료!</h2>          
           <div className="flex flex-col items-center justify-center">
             <AnimatePresence>
               {selectedTeam && (
